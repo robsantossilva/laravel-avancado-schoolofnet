@@ -10,4 +10,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-/modules
+/modules/Location/**
+/modules/Pages/**
+/modules/Location/.git
+/modules/Pages/.git
