@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\StockGreatherMax;
 use App\Product;
 use App\StockEntry;
 use Illuminate\Http\Request;
