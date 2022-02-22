@@ -3,10 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\ProductUpdated;
-use App\Mail\StockGreatherMax;
+use App\Mail\StockLessMin;
 
-class CheckStockMaxListener
+class CheckStockMinListener
 {
+
     /**
      * Handle the event.
      *
@@ -16,8 +17,8 @@ class CheckStockMaxListener
     public function handle(ProductUpdated $event)
     {
         $product = $event->product;
-        if ($product->stock >= $product->stock_max) {
-            \Mail::to(env('MAIL_STOCK'))->send(new StockGreatherMax($product));
+        if ($product->stock < ($product->stock_max * 0.1)) {
+            \Mail::to(env('MAIL_STOCK'))->send(new StockLessMin($product));
         }
     }
 }

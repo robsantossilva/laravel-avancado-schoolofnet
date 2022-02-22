@@ -2,14 +2,20 @@
 
 namespace App\Providers;
 
+use App\Events\OrderProductsSaveCompleted;
+use App\Events\ProductUpdated;
 use App\Events\StockEntryCreated;
+use App\Events\StockOutputCreated;
+use App\Listeners\CalculateTotalOrderListener;
+use App\Listeners\CheckStockMaxListener;
+use App\Listeners\CheckStockMinListener;
+use App\Listeners\DecrementStockListener;
 use App\Listeners\IncrementStockListener;
 use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use App\Observers\UserObserver;
-use App\StockEntry;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -23,10 +29,17 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         StockEntryCreated::class => [
-            IncrementStockListener::class
+            IncrementStockListener::class,
         ],
-        'App\Events\ProductUpdating' => [
-            'App\Listeners\CheckStockMaxListener'
+        ProductUpdated::class => [
+            CheckStockMaxListener::class,
+            CheckStockMinListener::class,
+        ],
+        StockOutputCreated::class => [
+            DecrementStockListener::class,
+        ],
+        OrderProductsSaveCompleted::class => [
+            CalculateTotalOrderListener::class
         ]
     ];
 

@@ -28,7 +28,6 @@ class StockEntryCreated
      */
     public function getEntry()
     {
-        echo 'getEntry';
         return $this->entry;
     }
 }

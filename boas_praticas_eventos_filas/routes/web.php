@@ -21,7 +21,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::resource('products', 'ProductsController', ['only' => ['index']]);
-Route::resource('stock_entries', 'StockEntriesController', ['only' => ['index', 'create', 'store']]);
-Route::resource('stock_outputs', 'StockOutPutsController', ['only' => ['index', 'create', 'store']]);
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('products', 'ProductsController', ['only' => ['index']]);
+    Route::resource('stock_entries', 'StockEntriesController', ['only' => ['index', 'create', 'store']]);
+    Route::resource('stock_outputs', 'StockOutPutsController', ['only' => ['index', 'create', 'store']]);
+    Route::resource('orders', 'OrdersController', ['only' => ['index', 'create', 'store']]);
+});

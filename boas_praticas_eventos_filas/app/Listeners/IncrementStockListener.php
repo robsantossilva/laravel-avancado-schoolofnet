@@ -14,7 +14,6 @@ class IncrementStockListener
      */
     public function handle(StockEntryCreated $event)
     {
-        echo 'handle';
         $entry = $event->entry;
         $product = $entry->product;
         $product->stock = $product->stock + $entry->quantity;
