@@ -17,6 +17,6 @@ class SendMailOrderCreatedListener
     public function handle(OrderCreatedFully $event)
     {
         $order = $event->getOrder();
-        \Mail::to($order->user)->send(new OrderCreated($order, $order->user));
+        \Mail::to($order->user)->queue(new OrderCreated($order, $order->user));
     }
 }
