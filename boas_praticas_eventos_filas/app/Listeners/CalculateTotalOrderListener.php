@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\OrderCreatedFully;
 use App\Events\OrderProductsSaveCompleted;
 
 class CalculateTotalOrderListener
@@ -32,5 +33,7 @@ class CalculateTotalOrderListener
         }
         $order->total = $sum;
         $order->save();
+
+        event(new OrderCreatedFully($order));
     }
 }
