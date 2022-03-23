@@ -2,13 +2,19 @@
 
 namespace App\Providers;
 
+use App\Events\OrderProductsSaveCompleted;
+use App\Events\ProductUpdated;
+use App\Events\StockEntryCreated;
+use App\Events\StockOutputCreated;
+use App\Listeners\CalculateTotalOrderListener;
+use App\Listeners\CheckStockMaxListener;
+use App\Listeners\CheckStockMinListener;
+use App\Listeners\DecrementStockListener;
+use App\Listeners\IncrementStockListener;
 use App\User;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\UserRegistered;
 use App\Observers\UserObserver;
 
 class EventServiceProvider extends ServiceProvider
@@ -22,6 +28,30 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        StockEntryCreated::class => [
+            IncrementStockListener::class,
+        ],
+        ProductUpdated::class => [
+            CheckStockMaxListener::class,
+            CheckStockMinListener::class,
+        ],
+        StockOutputCreated::class => [
+            DecrementStockListener::class,
+        ],
+        OrderProductsSaveCompleted::class => [
+            CalculateTotalOrderListener::class
+        ],
+        'App\Events\OrderCreatedFully' => [
+            'App\Listeners\SendMailOrderCreatedListener',
+            'App\Listeners\DoPaymentListener'
+        ],
+        'App\Events\OrderProductCreated' => [
+            'App\Listeners\DecrementStockFromCheckoutListener'
+        ],
+        'App\Events\PaymentCompleted' => [
+            'App\Listeners\SendMailPaymentCompletedListener',
+            'App\Listeners\GenerateReceiptListener',
+        ]
     ];
 
     /**

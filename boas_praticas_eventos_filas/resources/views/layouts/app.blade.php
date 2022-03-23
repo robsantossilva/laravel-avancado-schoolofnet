@@ -33,7 +33,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-item"><a class="nav-link" href="{{route('products.index')}}">Produto</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('orders.create')}}">Checkout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('stock_entries.index')}}">Entrada de Estoque</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('stock_outputs.index')}}">Saída de Estoque</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

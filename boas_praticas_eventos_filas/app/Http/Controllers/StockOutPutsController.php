@@ -7,7 +7,7 @@ use App\StockOutput;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
-class StockOutputsController extends Controller
+class StockOutPutsController extends Controller
 {
     public function index()
     {
