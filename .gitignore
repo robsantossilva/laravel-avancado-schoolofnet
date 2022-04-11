@@ -1,1 +1,2 @@
 .docker/mysql/dbdata/*
+laravel_com_elasticsearch/.docker
