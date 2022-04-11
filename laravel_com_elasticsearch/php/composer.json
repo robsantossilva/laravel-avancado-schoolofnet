@@ -1,0 +1,17 @@
+{
+    "name": "robsantossilva/phpes",
+    "autoload": {
+        "psr-4": {
+            "Robsantossilva\\Phpes\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Robson Silva",
+            "email": "robsantossilva@gmail.com"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^7.17"
+    }
+}
