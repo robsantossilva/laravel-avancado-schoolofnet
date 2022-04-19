@@ -225,3 +225,64 @@ DELETE son_elastic/clients/1
   "_primary_term" : 1
 }
 ```
+
+#### Consultas com POST
+```json
+POST son_elastic/clients/_search?pretty
+{
+  "query":{
+    "bool": {
+      "must": [
+        {"match": {"name" : "Robson"}},
+        {"match": {"numero" : 123}},
+        {"match": {"endereco" : "A"}}
+      ]
+    }
+  }
+}
+---
+{
+  "_index" : "son_elastic",
+  "_type" : "clients",
+  "_id" : "PoxAGoABpd8KWOuR2Xgb",
+  "_score" : 1.5753641,
+  "_source" : {
+    "name" : "Robson",
+    "endereco" : "Rua A",
+    "numero" : 123,
+    "data_nasc" : "1992-01-15"
+  }
+}
+```
+
+### Mapeamento dos campos
+```json
+GET son_elastic/_mapping?pretty
+---
+"properties" : {
+  "data_nasc" : {
+    "type" : "date"
+  },
+  "endereco" : {
+    "type" : "text",
+    "fields" : {
+      "keyword" : {
+        "type" : "keyword",
+        "ignore_above" : 256
+      }
+    }
+  },
+  "name" : {
+    "type" : "text",
+    "fields" : {
+      "keyword" : {
+        "type" : "keyword",
+        "ignore_above" : 256
+      }
+    }
+  },
+  "numero" : {
+    "type" : "long"
+  }
+}
+```
