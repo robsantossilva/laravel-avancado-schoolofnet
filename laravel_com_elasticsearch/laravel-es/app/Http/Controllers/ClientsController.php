@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Elasticsearch\Client;
+use Elasticsearch\Common\Exceptions\Missing404Exception;
+use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ClientsController extends Controller
 {
@@ -55,7 +58,13 @@ class ClientsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        unset($data['_token']);
+        $this->elasticParams['id'] = Uuid::uuid4()->toString();
+        $this->elasticParams['body'] = $data;
+        $this->elasticParams['refresh'] = true;
+        $this->client->create($this->elasticParams);
+        return redirect()->route('clients.index');
     }
 
     /**
@@ -77,7 +86,13 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        return view('clients.edit');
+        try {
+            $this->elasticParams['id'] = $id;
+            $client = $this->client->get($this->elasticParams);
+        } catch (Missing404Exception $e) {
+            throw new NotFoundHttpException("Client not found");
+        }
+        return view('clients.edit', compact('client'));
     }
 
     /**
@@ -89,7 +104,19 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->elasticParams['id'] = $id;
+        if (!$this->client->exists($this->elasticParams)) {
+            throw new NotFoundHttpException("Client not found");
+        }
+
+        $data = $request->all();
+        unset($data['_token']);
+        unset($data['_method']);
+        $this->elasticParams['refresh'] = true;
+        $this->elasticParams['body']['doc'] = $data;
+        $this->client->update($this->elasticParams);
+
+        return redirect()->route('clients.index');
     }
 
     /**

@@ -1,4 +1,1 @@
 .docker/mysql/dbdata/*
-laravel_com_elasticsearch/.docker/*
-laravel_com_elasticsearch/.docker/elasticdata/nodes/0/indices/q9coErKdRVOWZqdhtWKGlA/0/translog/translog.ckp
-laravel_com_elasticsearch/.docker/elasticdata/nodes/0/indices/rBALdrRCQbOSIgGcc2m0Kw/0/translog/translog.ckp
